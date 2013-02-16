@@ -8,6 +8,8 @@ var cube_width = cube_height;
 var no_of_rows = Math.round(height / cube_height);
 var no_of_cols = 10;
 
+var total_cubes = no_of_cols * no_of_rows;
+
 timer_interval = null;
 
 function new_game() {
@@ -26,8 +28,8 @@ function new_game() {
 
 		for (j = 0; j < no_of_cols; j++) {
 			// Get random number between 1 and total number of supported cubes
-			var total_cubes = parseInt($('#difficulty_level').val(), 10);
-			var cur_index = Math.floor(1 + (Math.random() * total_cubes))
+			var total_colours = parseInt($('#difficulty_level').val(), 10);
+			var cur_index = Math.floor(1 + (Math.random() * total_colours))
 
 			cur_row.push(cur_index);
 			
@@ -37,10 +39,10 @@ function new_game() {
 	}
 
 	old_game_matrix = game_matrix.slice(0);
-	console.log(old_game_matrix);
 	draw_from_game_matrix();
 
 	prepare_bomb_reception();
+	update_scores(total_cubes);
 }
 
 function draw_from_game_matrix() {
@@ -161,11 +163,35 @@ function check_if_move_exists() {
 		return;
 	}
 
-	score = ((no_of_rows * no_of_cols) - non_white);
-	$('#score_value').text(score + " / " + (no_of_rows * no_of_cols));
+	update_scores(non_white);
 
 	return valid_move_exists;
 
+}
+
+function update_scores(non_white) {
+	// Update score
+	score = (total_cubes - non_white);
+	max_score = total_cubes;
+
+	if (score / max_score <= 0.2) {
+		$('.bar-danger').css('width', (100 * score / max_score) + '%');
+		$('.bar-danger').show();
+		$('.bar-warning').hide();
+		$('.bar-success').hide();
+	} else if (score / max_score > 0.2 && score / max_score <= 0.5) {
+		$('.bar-warning').css('width', ((100 * score / max_score) - 20) + '%');
+		$('.bar-danger').show();
+		$('.bar-warning').show();
+		$('.bar-success').hide();
+	} else {
+		$('.bar-success').css('width', ((100 * score / max_score) - 50) + '%');
+		$('.bar-danger').show();
+		$('.bar-warning').show();
+		$('.bar-success').show();
+	}
+
+	$('#score_value').text(score + " / " + total_cubes);
 }
 
 function show_game_over(victory) {
