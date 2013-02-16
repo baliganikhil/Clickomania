@@ -7,6 +7,7 @@
 
 <script type="text/javascript" src="startup_files/jquery-1.9.0.min.js"></script>
 <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="startup_files/jquery-ui.js"></script>
 <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="click.css">
 </head>
@@ -34,9 +35,7 @@
 	  </div>
 	</div>
 
-
-	<div id="game_area" class="well span4 offset6"></div>
-	<div class="well span3" style="height: 500px; text-align: center;">
+	<div class="well span3" style="height: 100%; text-align: center;">
 		<button class="btn btn-large btn-primary" id="btn_new_game">New Game</button>
 		<p>&nbsp;</p>
 		<button class="btn btn-inverse hide" id="btn_undo"><i class="icon-repeat icon-white"></i> Undo</button>
@@ -75,11 +74,26 @@
 		</div>
 		
 		<p>&nbsp;</p>
+		
+	</div>
+
+	<div id="game_area" class="well span4"></div>
+
+	<div class="span6" style="height: 100%; text-align: center;">
+		<div class="well">
+			<h4>Bomb</h4>
+			<p id="bomb_info">Drop the bomb on any cell to destroy it and its 8 neighbours</p>
+			<div id="bomb"><img src="images/bomb.png"></div>
+			<div id="no_bomb">You have no bombs left</div>
+		</div>
+		
+
 		<div>
 			<h4>Spread the word!</h4>
 			<div class="fb-like" data-href="http://nikhilbaliga.com/clickomania/clickomania.html" data-send="true" data-width="450" data-show-faces="true"></div>
 		</div>
 	</div>
+
 </div>
 
 <div class="modal hide fade">

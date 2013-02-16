@@ -39,6 +39,8 @@ function new_game() {
 	old_game_matrix = game_matrix.slice(0);
 	console.log(old_game_matrix);
 	draw_from_game_matrix();
+
+	prepare_bomb_reception();
 }
 
 function draw_from_game_matrix() {
@@ -288,4 +290,70 @@ function update_timer() {
 	}
 
 	$('#timer_value').text(min + " : " + sec);
+}
+
+function prepare_bomb_reception() {
+	$('#bomb').draggable({ revert: true });
+
+	$('#game_area td').droppable({
+		accept: '#bomb',
+		drop: function(event, ui) {
+			destroy_nine_cells($(this));
+			remove_bomb();
+		}
+	});
+
+	$('#bomb').show();
+	$('#bomb_info').show();
+	$('#no_bomb').hide();
+}
+
+function destroy_nine_cells(td) {
+	row = $(td).data('row');
+	col = $(td).data('col');
+
+	// Previous row
+	if (row > 0) {
+		if (col > 0) {
+			game_matrix[row - 1][col - 1] = -1;
+		}
+
+		game_matrix[row - 1][col] = -1;
+
+		if (col < no_of_cols - 1) {
+			game_matrix[row - 1][col + 1] = -1;
+		}
+	}
+
+	// Current Row
+	if (col > 0) {
+		game_matrix[row][col - 1] = -1;
+	}
+
+	game_matrix[row][col] = -1;
+
+	if (col < no_of_cols - 1) {
+		game_matrix[row][col + 1] = -1;
+	}
+
+	// Next Row
+	if (row < no_of_rows - 1) {
+		if (col > 0) {
+			game_matrix[row + 1][col - 1] = -1;
+		}
+
+		game_matrix[row + 1][col] = -1;
+
+		if (col < no_of_cols - 1) {
+			game_matrix[row + 1][col + 1] = -1;
+		}
+	}
+
+	remove_marked_cubes();
+}
+
+function remove_bomb() {
+	$('#bomb').hide();
+	$('#bomb_info').hide();
+	$('#no_bomb').show();
 }
