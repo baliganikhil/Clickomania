@@ -199,6 +199,7 @@ function update_scores(non_white) {
 	}
 
 	$('#score_value').text(score + " / " + total_cubes);
+	$('#blocks_remaining').text((total_cubes - score) + " remaining");
 }
 
 function show_game_over(victory) {
