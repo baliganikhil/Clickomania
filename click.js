@@ -38,7 +38,7 @@ function new_game() {
 		game_matrix.push(cur_row);
 	}
 
-	old_game_matrix = game_matrix.slice(0);
+	old_game_matrix = $.extend(true, [], game_matrix);
 	draw_from_game_matrix();
 
 	prepare_bomb_reception();
@@ -84,7 +84,11 @@ $('#game_area').on('click', '.cube', function() {
 	var neighbour_found = check_if_neighbour_exists(row, col, cube_index);
 
 	if (neighbour_found) {
-		// old_game_matrix = game_matrix.slice(0);
+		// Enable and facilitate Undo
+		old_game_matrix = $.extend(true, [], game_matrix);
+		$('#btn_undo').removeClass('disabled');
+
+
 		mark_cube_to_remove(row, col);
 		cube_index_to_remove = cube_index;
 		process_cubes_to_remove();	
@@ -288,8 +292,9 @@ $(document).ready(function() {
 });
 
 $('#btn_undo').on('click', function() {
-	game_matrix = old_game_matrix.slice(0);
+	game_matrix = $.extend(true, [], old_game_matrix);
 	draw_from_game_matrix();
+	$(this).addClass('disabled');
 });
 
 $('#btn_new_game').on('click', function() {
@@ -383,3 +388,16 @@ function remove_bomb() {
 	$('#bomb_info').hide();
 	$('#no_bomb').show();
 }
+
+$("#bookmarkme").click(function() {
+
+      if (window.sidebar) { // Mozilla Firefox Bookmark
+        window.sidebar.addPanel(location.href,document.title,"");
+      } else if(window.external) { // IE Favorite
+        window.external.AddFavorite(location.href,document.title); }
+      else if(window.opera && window.print) { // Opera Hotlist
+        this.title=document.title;
+        return true;
+  }
+
+});
