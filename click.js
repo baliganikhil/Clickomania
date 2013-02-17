@@ -159,6 +159,8 @@ function check_if_move_exists() {
 		}
 	}
 
+	update_scores(non_white);
+
 	if (non_white_exists == true && valid_move_exists == false) {
 		show_game_over(false);
 		return;
@@ -166,8 +168,6 @@ function check_if_move_exists() {
 		show_game_over(true);
 		return;
 	}
-
-	update_scores(non_white);
 
 	return valid_move_exists;
 
@@ -184,11 +184,14 @@ function update_scores(non_white) {
 		$('.bar-warning').hide();
 		$('.bar-success').hide();
 	} else if (score / max_score > 0.2 && score / max_score <= 0.5) {
+		$('.bar-danger').css('width', '20%');
 		$('.bar-warning').css('width', ((100 * score / max_score) - 20) + '%');
 		$('.bar-danger').show();
 		$('.bar-warning').show();
 		$('.bar-success').hide();
 	} else {
+		$('.bar-danger').css('width', '20%');
+		$('.bar-warning').css('width', '30%');
 		$('.bar-success').css('width', ((100 * score / max_score) - 50) + '%');
 		$('.bar-danger').show();
 		$('.bar-warning').show();
