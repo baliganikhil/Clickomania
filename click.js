@@ -274,13 +274,43 @@ function remove_marked_cubes() {
 	// Check the last row
 	for (j = 0; j < no_of_cols - 1; j++) {
 		if (game_matrix[no_of_rows - 1][j] == 0) {
-			// Shift all to the left
-			for (m = j; m < no_of_cols - 1; m++) {
-				for (n = 0; n < no_of_rows; n++) {
-					game_matrix[n][m] = game_matrix[n][m + 1];
-					game_matrix[n][m + 1] = 0;
+
+			z = 0;
+			hit_edge = false;
+			for (x = j; x < no_of_cols - 1; x++) {
+				if (game_matrix[no_of_rows - 1][x] == 0) {
+					z++;
+				} else {
+					break;
+				}
+
+				if (x == no_of_cols - 2) {
+					hit_edge = true;
 				}
 			}
+
+			
+				// Shift all to the left
+				for (m = j; m < no_of_cols - 1; m++) {
+					for (n = 0; n < no_of_rows; n++) {
+						if (game_matrix[n][m + z] != undefined) {
+							game_matrix[n][m] = game_matrix[n][m + z];
+							game_matrix[n][m + z] = 0;
+						} else {
+							game_matrix[n][m] = 0;
+						}
+						
+						
+					}
+				}
+
+			// // Shift all to the left
+			// for (m = j; m < no_of_cols - 1; m++) {
+			// 	for (n = 0; n < no_of_rows; n++) {
+			// 		game_matrix[n][m] = game_matrix[n][m + 1];
+			// 		game_matrix[n][m + 1] = 0;
+			// 	}
+			// }
 		}
 	}
 
